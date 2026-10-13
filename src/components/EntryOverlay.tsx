@@ -5,20 +5,23 @@ import { Volume2, Sparkles, Headphones } from "lucide-react";
 import "./styles/EntryOverlay.css";
 
 const EntryOverlay: React.FC = () => {
-  const { isLoading } = useLoading();
+  const { isLoading, isEntered, setIsEntered } = useLoading();
   const [isVisible, setIsVisible] = useState(true);
   const [isFading, setIsFading] = useState(false);
 
   useEffect(() => {
-    if (!isLoading && isVisible) {
+    if (!isEntered && isVisible) {
+      document.documentElement.style.overflow = "hidden";
       document.body.style.overflow = "hidden";
     }
     return () => {
+      document.documentElement.style.overflow = "auto";
       document.body.style.overflow = "auto";
     };
-  }, [isLoading, isVisible]);
+  }, [isEntered, isVisible]);
 
-  if (isLoading || !isVisible) {
+  // If already entered and fadeout complete, remove from DOM
+  if (!isVisible || (isEntered && !isFading)) {
     return null;
   }
 
@@ -28,6 +31,7 @@ const EntryOverlay: React.FC = () => {
     }
     if (isFading) return;
     setIsFading(true);
+    setIsEntered(true);
 
     try {
       if (audioService.getIsMuted()) {
@@ -49,13 +53,14 @@ const EntryOverlay: React.FC = () => {
 
     setTimeout(() => {
       setIsVisible(false);
+      document.documentElement.style.overflow = "auto";
       document.body.style.overflow = "auto";
     }, 600);
   };
 
   return (
     <div
-      className={`entry-overlay-backdrop ${isFading ? "fade-out" : ""}`}
+      className={`entry-overlay-backdrop ${isFading ? "fade-out" : ""} ${isLoading ? "entry-behind-loader" : ""}`}
       onClick={() => handleEnter()}
       onTouchStart={() => handleEnter()}
       role="dialog"

@@ -4,6 +4,8 @@
   margin: auto;
   position: relative;
   height: var(--vh);
+  min-height: 600px;
+  overflow: visible;
 }
 .landing-container {
   width: var(--cWidth);
@@ -11,6 +13,7 @@
   height: 100%;
   position: relative;
   max-width: var(--cMaxWidth);
+  overflow: visible;
 }
 .landing-circle1 {
   top: 0%;

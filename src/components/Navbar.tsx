@@ -47,25 +47,30 @@ export const refreshScroll = () => {
 const Navbar = () => {
   const loadingContext = useLoading();
   const isLoading = loadingContext ? loadingContext.isLoading : false;
+  const isEntered = loadingContext ? loadingContext.isEntered : false;
 
   useEffect(() => {
-    if (!isLoading) {
+    if (!isLoading && isEntered) {
       const timer = setTimeout(() => {
         refreshScroll();
       }, 80);
       const timer2 = setTimeout(() => {
         refreshScroll();
-      }, 500);
+      }, 400);
+      const timer3 = setTimeout(() => {
+        refreshScroll();
+      }, 900);
 
       window.addEventListener("resize", refreshScroll);
 
       return () => {
         clearTimeout(timer);
         clearTimeout(timer2);
+        clearTimeout(timer3);
         window.removeEventListener("resize", refreshScroll);
       };
     }
-  }, [isLoading]);
+  }, [isLoading, isEntered]);
 
   useEffect(() => {
     const cleanupFns: (() => void)[] = [];

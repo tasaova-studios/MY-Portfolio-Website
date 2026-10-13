@@ -10,7 +10,6 @@ import SocialIcons from "./SocialIcons";
 import WhatIDo from "./WhatIDo";
 import ButterflyFlight from "./ButterflyFlight";
 import FuturisticBoxTrace from "./FuturisticBoxTrace";
-import EntryOverlay from "./EntryOverlay";
 import setSplitText from "./utils/splitText";
 
 const MainContainer = ({ children }: PropsWithChildren) => {
@@ -34,7 +33,6 @@ const MainContainer = ({ children }: PropsWithChildren) => {
 
   return (
     <div className="container-main">
-      <EntryOverlay />
       <Cursor />
       <Navbar />
       <SocialIcons />
