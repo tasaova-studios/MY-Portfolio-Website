@@ -4,16 +4,20 @@
   width: var(--cWidth);
   justify-content: space-between;
   align-items: center;
-  padding: 24px 0px;
+  padding: 12px 28px;
   box-sizing: border-box;
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  top: 0;
-  z-index: 9999;
+  top: 16px;
+  z-index: 99999;
   gap: 16px;
-  opacity: 0;
-  visibility: hidden;
+  background: rgba(14, 10, 22, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(194, 164, 255, 0.25);
+  border-radius: 9999px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.65), inset 0 0 20px rgba(194, 164, 255, 0.08);
 }
 
 .navbar-title {

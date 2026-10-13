@@ -30,7 +30,7 @@ export const refreshScroll = () => {
         smoother = ScrollSmoother.create({
           wrapper: "#smooth-wrapper",
           content: "#smooth-content",
-          smooth: 0.6,
+          smooth: 0.45,
           speed: 1,
           effects: false,
           autoResize: true,

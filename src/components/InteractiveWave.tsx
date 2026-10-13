@@ -67,6 +67,7 @@ const InteractiveWave = () => {
     }
 
     // High performance seek gate: updates video frame smoothly with scrollbar
+    let lastSeekTime = 0;
     const performSeek = () => {
       if (!video || !video.duration || isNaN(video.duration)) return;
       if (video.seeking) return;
@@ -75,7 +76,9 @@ const InteractiveWave = () => {
       const targetTime = Math.min(dur - 0.02, Math.max(0, currentProgress * dur));
       const diff = Math.abs(video.currentTime - targetTime);
 
-      if (diff > 0.03) {
+      const now = performance.now();
+      if (diff > 0.04 && (now - lastSeekTime > 32)) {
+        lastSeekTime = now;
         if ("fastSeek" in video && typeof (video as any).fastSeek === "function") {
           (video as any).fastSeek(targetTime);
         } else {
