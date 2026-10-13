@@ -79,7 +79,7 @@ const AudioController: React.FC = () => {
       className={`sound-animated-toggle-btn ${isSoundActive ? "sound-active" : "sound-muted"}`}
       onClick={handleToggleSound}
       data-cursor="pointer"
-      title={isSoundActive ? "Mute Music" : "Unmute Music"}
+      title={isSoundActive ? "Mute Music (Music-Reactive Lighting Synced)" : "Unmute Music to Sync Background Lighting"}
       aria-label={isSoundActive ? "Mute Music" : "Unmute Music"}
     >
       {/* 4 Dancing Equalizer Bars */}
@@ -107,6 +107,11 @@ const AudioController: React.FC = () => {
           style={{ transform: "scale(1)", opacity: 0.3 }}
         />
       )}
+
+      {/* Hover Tooltip Badge */}
+      <span className="sound-tooltip-badge">
+        {isSoundActive ? "Music Lighting Synced ✦" : "Turn On Music for Lighting ⚡"}
+      </span>
     </button>
   );
 };

@@ -122,6 +122,35 @@
   transition: transform 0.08s ease-out, opacity 0.08s ease-out;
 }
 
+/* Tooltip hint */
+.sound-tooltip-badge {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  white-space: nowrap;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(18, 14, 28, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(194, 164, 255, 0.25);
+  color: #e9d5ff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 100;
+}
+
+.sound-animated-toggle-btn:hover .sound-tooltip-badge {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* Mobile responsive adjustments */
 @media screen and (max-width: 600px) {
   .sound-animated-toggle-btn {
@@ -134,5 +163,9 @@
     height: 13px;
     width: 13px;
     gap: 2px;
+  }
+
+  .sound-tooltip-badge {
+    display: none;
   }
 }

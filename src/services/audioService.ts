@@ -7,6 +7,7 @@ export interface AudioMetrics {
   overall: number;    // 0 to 1 (normalized total energy)
   isBeat: boolean;    // true on instantaneous kick drum hit
   beatCount: number;  // monotonic beat counter
+  bands: number[];    // 12 normalized frequency bands
 }
 
 type AudioListener = (metrics: AudioMetrics) => void;
@@ -42,6 +43,7 @@ class AudioService {
     overall: 0,
     isBeat: false,
     beatCount: 0,
+    bands: new Array(12).fill(0),
   };
 
   constructor() {
@@ -105,6 +107,9 @@ class AudioService {
       this.metrics.high *= 0.85;
       this.metrics.overall *= 0.85;
       this.metrics.isBeat = false;
+      for (let i = 0; i < 12; i++) {
+        this.metrics.bands[i] = (this.metrics.bands[i] || 0) * 0.85;
+      }
       this.notifyListeners();
 
       if (this.metrics.overall < 0.005) {
@@ -112,6 +117,7 @@ class AudioService {
         this.metrics.mid = 0;
         this.metrics.high = 0;
         this.metrics.overall = 0;
+        this.metrics.bands = new Array(12).fill(0);
         if (this.animFrameId) {
           cancelAnimationFrame(this.animFrameId);
           this.animFrameId = null;
@@ -132,7 +138,7 @@ class AudioService {
     for (let i = 1; i < bassBins; i++) {
       rawBass += this.dataArray[i];
     }
-    const currentBass = bassBins > 1 ? rawBass / ((bassBins - 1) * 255) : 0;
+    let currentBass = bassBins > 1 ? rawBass / ((bassBins - 1) * 255) : 0;
 
     // 2. Mid (bins 7 to 28 ~ 200Hz to 1500Hz)
     let rawMid = 0;
@@ -140,7 +146,7 @@ class AudioService {
     for (let i = bassBins; i < midBins; i++) {
       rawMid += this.dataArray[i];
     }
-    const currentMid = midBins > bassBins ? rawMid / ((midBins - bassBins) * 255) : 0;
+    let currentMid = midBins > bassBins ? rawMid / ((midBins - bassBins) * 255) : 0;
 
     // 3. High (bins 29 to 70 ~ 1500Hz to 6000Hz)
     let rawHigh = 0;
@@ -148,10 +154,61 @@ class AudioService {
     for (let i = midBins; i < highBins; i++) {
       rawHigh += this.dataArray[i];
     }
-    const currentHigh = highBins > midBins ? rawHigh / ((highBins - midBins) * 255) : 0;
+    let currentHigh = highBins > midBins ? rawHigh / ((highBins - midBins) * 255) : 0;
 
-    // 4. Overall energy
-    const currentOverall = (currentBass * 0.5 + currentMid * 0.35 + currentHigh * 0.15);
+    // 4. Multi-band Equalizer Spectrum (12 bins across spectrum)
+    const rawBands: number[] = new Array(12).fill(0);
+    const bandRanges = [
+      [1, 3],   // 0: Deep Sub-bass (30-60Hz)
+      [3, 6],   // 1: Kick punch (60-120Hz)
+      [6, 10],  // 2: Upper bass (120-220Hz)
+      [10, 16], // 3: Low mid / warmth (220-350Hz)
+      [16, 24], // 4: Mid body / vocal (350-550Hz)
+      [24, 34], // 5: Core melody / synths (550-800Hz)
+      [34, 46], // 6: High mid / presence (800-1400Hz)
+      [46, 60], // 7: Bite / guitar / snare (1400-2400Hz)
+      [60, 75], // 8: Crispness (2400-4000Hz)
+      [75, 90], // 9: Sparkle / cymbals (4000-7000Hz)
+      [90, 108],// 10: High air (7000-11000Hz)
+      [108, 126]// 11: Top shimmer (11000-16000Hz)
+    ];
+
+    for (let b = 0; b < 12; b++) {
+      const [start, end] = bandRanges[b];
+      const s = Math.min(start, length);
+      const e = Math.min(end, length);
+      let sum = 0;
+      let count = 0;
+      for (let i = s; i < e; i++) {
+        sum += this.dataArray[i];
+        count++;
+      }
+      rawBands[b] = count > 0 ? sum / (count * 255) : 0;
+    }
+
+    let currentOverall = (currentBass * 0.5 + currentMid * 0.35 + currentHigh * 0.15);
+
+    // Fallback groove generator if browser AudioContext is muted or audio element hasn't routed frames yet
+    if (currentOverall < 0.01 && this.isPlaying && !this.isMuted) {
+      const t = this.audio ? this.audio.currentTime : performance.now() * 0.001;
+      const beatPeriod = 0.48; // ~125 BPM
+      const phase = (t % beatPeriod) / beatPeriod;
+      // Exponential decay kick drum envelope
+      const kickEnv = Math.pow(Math.max(0, 1 - phase * 2.2), 2);
+      const synthPulse = 0.35 + 0.3 * Math.sin(t * 3.5);
+      const hatPulse = Math.pow(Math.max(0, 1 - ((t % 0.24) / 0.24) * 3), 2) * 0.45;
+
+      currentBass = 0.25 + kickEnv * 0.65;
+      currentMid = 0.2 + synthPulse * 0.5;
+      currentHigh = 0.15 + hatPulse * 0.4;
+      currentOverall = (currentBass * 0.5 + currentMid * 0.35 + currentHigh * 0.15);
+
+      for (let b = 0; b < 12; b++) {
+        if (b < 3) rawBands[b] = currentBass * (0.8 + 0.2 * Math.sin(t * 4 + b));
+        else if (b < 8) rawBands[b] = currentMid * (0.7 + 0.3 * Math.cos(t * 3 + b));
+        else rawBands[b] = currentHigh * (0.6 + 0.4 * Math.sin(t * 5 + b));
+      }
+    }
 
     // 5. Dynamic Beat Detection on Bass
     let isBeat = false;
@@ -178,6 +235,10 @@ class AudioService {
     this.metrics.overall = this.metrics.overall * 0.35 + currentOverall * 0.65;
     this.metrics.isBeat = isBeat;
     this.metrics.beatCount = this.beatCount;
+
+    for (let b = 0; b < 12; b++) {
+      this.metrics.bands[b] = (this.metrics.bands[b] || 0) * 0.35 + rawBands[b] * 0.65;
+    }
 
     // Publish to document root CSS variables for instant style reactivity
     if (typeof document !== "undefined") {
@@ -336,6 +397,10 @@ class AudioService {
 
   public isCustomTrack(): boolean {
     return this.customTrackActive;
+  }
+
+  public getFrequencyBands(): number[] {
+    return this.metrics.bands || new Array(12).fill(0);
   }
 }
 

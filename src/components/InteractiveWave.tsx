@@ -33,6 +33,12 @@ const InteractiveWave = () => {
   const overlayRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  // Scene Sky Audio-Reactive Lighting Refs (strictly tied to the sky in the background scene)
+  const skyCloudRef = useRef<HTMLDivElement>(null);
+  const skyGlowRef = useRef<HTMLDivElement>(null);
+  const skyBurstRef = useRef<HTMLDivElement>(null);
+  const skyHorizonRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const video = videoRef.current;
     const wrapper = wrapperRef.current;
@@ -177,7 +183,11 @@ const InteractiveWave = () => {
     }
 
     let time = 0;
-    let lastBass = -1;
+
+    // Smooth envelope state for the sky "jolbe-nivbe" effect
+    let skyGlow = 0;
+    let skyBurst = 0;
+    let skyAurora = 0;
 
     const renderLoop = () => {
       animId = requestAnimationFrame(renderLoop);
@@ -192,21 +202,63 @@ const InteractiveWave = () => {
 
       // Read real-time audio metrics
       const audioMetrics = audioService.getMetrics();
-      const bass = audioMetrics.bass;
-      const mid = audioMetrics.mid;
+      const isSoundActive = audioService.getIsPlaying() && !audioService.getIsMuted();
+      const bass = isSoundActive ? audioMetrics.bass : 0;
+      const mid = isSoundActive ? audioMetrics.mid : 0;
+      const high = isSoundActive ? audioMetrics.high : 0;
+      const isBeat = isSoundActive ? audioMetrics.isBeat : false;
 
-      // Pulse video wrapper & overlay slightly on beat without heavy paint operations
-      if (Math.abs(bass - lastBass) > 0.02) {
-        lastBass = bass;
+      // 1. Celestial Beat Burst: "jore jolbe" on kicks and beats, smoothly "nivbe"
+      if (isBeat) {
+        skyBurst = Math.max(skyBurst, 0.85 + bass * 0.15);
+      } else {
+        // Natural exponential decay between beats
+        skyBurst *= 0.86;
+        if (skyBurst < 0.005) skyBurst = 0;
+      }
 
-        if (wrapper) {
-          const beatScale = (1.0 + bass * 0.025).toFixed(3);
-          wrapper.style.transform = `scale(${beatScale})`;
+      // 2. Ambient Sky Illumination: swells with bass and overall energy
+      const targetGlow = isSoundActive ? 0.2 + bass * 0.58 + mid * 0.22 : 0;
+      skyGlow += (targetGlow - skyGlow) * 0.2;
+
+      // 3. Horizon Sunrise / Dawn Glow: breathes with mid & treble melodies
+      const targetAurora = isSoundActive ? 0.15 + mid * 0.45 + high * 0.3 : 0;
+      skyAurora += (targetAurora - skyAurora) * 0.18;
+
+      // Update Sky Elements (contained strictly within the scene's sky)
+      if (skyCloudRef.current) {
+        const cloudOpacity = Math.min(1, skyGlow * 1.1 + skyBurst * 0.35);
+        skyCloudRef.current.style.opacity = cloudOpacity.toFixed(3);
+        skyCloudRef.current.style.transform = `scale(${(1.0 + bass * 0.06).toFixed(3)})`;
+      }
+
+      if (skyGlowRef.current) {
+        skyGlowRef.current.style.opacity = skyGlow.toFixed(3);
+      }
+
+      if (skyBurstRef.current) {
+        skyBurstRef.current.style.opacity = skyBurst.toFixed(3);
+      }
+
+      if (skyHorizonRef.current) {
+        const horizonOpacity = Math.min(1, skyAurora + skyBurst * 0.25);
+        skyHorizonRef.current.style.opacity = horizonOpacity.toFixed(3);
+      }
+
+      // Video atmosphere: highlights and sky exposure breathe with the song
+      if (video) {
+        if (isSoundActive) {
+          const bright = (1.0 + bass * 0.26 + skyBurst * 0.18).toFixed(2);
+          const contrast = (1.0 + bass * 0.14).toFixed(2);
+          const sat = (1.0 + mid * 0.22).toFixed(2);
+          video.style.filter = `brightness(${bright}) contrast(${contrast}) saturate(${sat})`;
+        } else {
+          video.style.filter = "none";
         }
+      }
 
-        if (overlay) {
-          overlay.style.opacity = `${(0.85 + bass * 0.15).toFixed(2)}`;
-        }
+      if (overlay) {
+        overlay.style.opacity = isSoundActive ? "0.68" : "0.85";
       }
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -246,13 +298,6 @@ const InteractiveWave = () => {
           ctx.ellipse(0, 0, dynamicSize * (0.6 + 0.4 * flutter), dynamicSize * 1.8, 0, 0, Math.PI * 2);
           ctx.fillStyle = `${p.color}${dynamicAlpha * 0.75})`;
           ctx.fill();
-
-          ctx.beginPath();
-          ctx.moveTo(0, -dynamicSize * 1.4);
-          ctx.lineTo(0, dynamicSize * 1.4);
-          ctx.strokeStyle = `rgba(255, 255, 255, ${dynamicAlpha * 0.35})`;
-          ctx.lineWidth = 1;
-          ctx.stroke();
         } else if (p.type === "petal") {
           ctx.beginPath();
           ctx.ellipse(0, 0, dynamicSize * (0.8 + 0.2 * flutter), dynamicSize * 1.5, 0.3, 0, Math.PI * 2);
@@ -309,6 +354,21 @@ const InteractiveWave = () => {
           />
           <source src={VIDEO_URL} type="video/mp4" />
         </video>
+
+        {/* Scene Sky Audio-Reactive Lighting Stage (strictly mapped to the sky in the scene) */}
+        <div className="scene-sky-light-stage" aria-hidden="true">
+          {/* 1. Clouds & Atmospheric Illumination (Color-Dodge makes clouds in the video naturally glow) */}
+          <div ref={skyCloudRef} className="scene-sky-cloud-glow" />
+
+          {/* 2. Sky Dome Ambient Light (Deep, vibrant sky illumination) */}
+          <div ref={skyGlowRef} className="scene-sky-ambient-light" />
+
+          {/* 3. Celestial Beat Burst ("jore jolbe" on kicks and beats, then smoothly dims "nivbe") */}
+          <div ref={skyBurstRef} className="scene-sky-beat-burst" />
+
+          {/* 4. Horizon Sunrise / Dawn Glow (Where sky meets landscape) */}
+          <div ref={skyHorizonRef} className="scene-sky-horizon-glow" />
+        </div>
       </div>
 
       <canvas ref={canvasRef} className="site-video-blast-canvas" />

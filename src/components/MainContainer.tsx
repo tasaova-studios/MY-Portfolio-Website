@@ -41,7 +41,7 @@ const MainContainer = ({ children }: PropsWithChildren) => {
       <ButterflyFlight />
       <FuturisticBoxTrace />
 
-      {/* Interactive 3D Wave Canvas in background */}
+      {/* Interactive 3D Video Wave Background Scene */}
       {children}
 
       <div id="smooth-wrapper">
