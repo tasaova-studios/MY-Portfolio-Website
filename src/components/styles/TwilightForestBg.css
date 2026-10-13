@@ -1,0 +1,38 @@
+.twilight-forest-wrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.twilight-image-bg {
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(circle at 70% 60%, rgba(255, 179, 71, 0.35) 0%, rgba(131, 56, 236, 0.45) 40%, rgba(15, 10, 30, 0.92) 100%),
+    linear-gradient(135deg, #1b0f35 0%, #2e1248 35%, #4a154b 65%, #120624 100%);
+  background-size: cover;
+  background-position: center;
+  filter: blur(8px) saturate(1.3);
+  -webkit-filter: blur(8px) saturate(1.3);
+  transform: scale(1.05);
+}
+
+.twilight-image-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at bottom, rgba(46, 16, 72, 0.8) 0%, rgba(7, 3, 16, 0.95) 70%);
+  mix-blend-mode: multiply;
+}
+
+.twilight-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}

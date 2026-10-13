@@ -1,0 +1,212 @@
+.header {
+  display: flex;
+  max-width: var(--cMaxWidth);
+  width: var(--cWidth);
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 0px;
+  box-sizing: border-box;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  z-index: 9999;
+  gap: 16px;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.navbar-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.8px;
+  white-space: nowrap;
+  color: #f1ecf5;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+  user-select: none;
+}
+
+.navbar-title:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+}
+
+.navbar-logo-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 16px rgba(168, 85, 247, 0.45), 0 0 4px rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+}
+
+.navbar-title:hover .navbar-logo-img {
+  transform: rotate(10deg) scale(1.08);
+  box-shadow: 0 0 24px rgba(168, 85, 247, 0.75), 0 0 8px rgba(255, 255, 255, 0.6);
+}
+
+.navbar-logo-text {
+  display: inline-block;
+  background: linear-gradient(135deg, #ffffff 30%, #e2d4fd 70%, #c084fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+
+/* Glassmorphic Navigation Pill Container */
+.header-nav-pill {
+  display: flex;
+  align-items: center;
+  background: rgba(18, 14, 26, 0.78);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(194, 164, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), inset 0 0 12px rgba(194, 164, 255, 0.05);
+  padding: 8px 24px;
+  border-radius: 9999px;
+  transition: all 0.3s ease;
+}
+
+.header-nav-pill:hover {
+  border-color: rgba(194, 164, 255, 0.38);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55), inset 0 0 16px rgba(194, 164, 255, 0.09);
+}
+
+.header ul {
+  font-size: 13px;
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  gap: 22px;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.header ul li {
+  margin: 0;
+  letter-spacing: 0.8px;
+  color: #eae5ec;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.header ul li a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+/* Right Group: Audio Capsule + Connect Button */
+.navbar-right-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* Glassmorphic Email Capsule Button */
+.navbar-connect-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  letter-spacing: 0.4px;
+  font-weight: 500;
+  color: #f1ecf5;
+  text-decoration: none;
+  padding: 8px 18px;
+  border-radius: 9999px;
+  background: rgba(18, 14, 26, 0.78);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(194, 164, 255, 0.22);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.navbar-connect-btn:hover {
+  background: rgba(30, 22, 45, 0.92);
+  border-color: var(--accentColor, #c2a4ff);
+  box-shadow: 0 0 20px rgba(194, 164, 255, 0.35);
+  transform: translateY(-1px);
+  color: #ffffff;
+}
+
+/* Glowing Green Online Pulse Indicator */
+.online-indicator {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+}
+
+.online-dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #22c55e;
+  box-shadow: 0 0 10px #22c55e, 0 0 4px #4ade80;
+}
+
+.online-ping {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #22c55e;
+  opacity: 0.75;
+  animation: pingAnimation 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes pingAnimation {
+  75%, 100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+@media only screen and (max-width: 1100px) {
+  .navbar-connect-btn {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .header-nav-pill {
+    padding: 6px 16px;
+  }
+  .header ul {
+    gap: 14px;
+    font-size: 11.5px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .header {
+    padding: 16px 0px;
+  }
+  .navbar-title {
+    font-size: 13px;
+  }
+  .navbar-logo-img {
+    width: 34px;
+    height: 34px;
+  }
+}

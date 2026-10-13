@@ -1,0 +1,138 @@
+/* Minimalist Animated Sound & Mute Toggle Button */
+
+.sound-animated-toggle-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 36px;
+  padding: 0 12px 0 10px;
+  border-radius: 9999px;
+  background: rgba(18, 14, 28, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #f1ecf5;
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+  flex-shrink: 0;
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(194, 164, 255, 0.05);
+}
+
+.sound-animated-toggle-btn:hover {
+  transform: translateY(-1px);
+  border-color: rgba(194, 164, 255, 0.5);
+  background: rgba(26, 20, 40, 0.88);
+  box-shadow: 0 6px 22px rgba(168, 85, 247, 0.35);
+}
+
+.sound-animated-toggle-btn:active {
+  transform: scale(0.96);
+}
+
+/* Sound Active State */
+.sound-animated-toggle-btn.sound-active {
+  border-color: rgba(194, 164, 255, 0.35);
+  background: rgba(22, 17, 34, 0.82);
+}
+
+/* Sound Muted State */
+.sound-animated-toggle-btn.sound-muted {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(14, 12, 18, 0.6);
+  opacity: 0.75;
+}
+
+.sound-animated-toggle-btn.sound-muted:hover {
+  opacity: 1;
+}
+
+/* Equalizer Bars Container */
+.sound-eq-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2.5px;
+  height: 15px;
+  width: 15px;
+}
+
+/* Equalizer Individual Bar */
+.sound-eq-bar {
+  flex: 1;
+  border-radius: 9999px;
+  min-height: 3px;
+  transition: height 0.08s ease-out, background-color 0.25s ease;
+}
+
+.sound-active .sound-eq-bar.bar-1 {
+  background: linear-gradient(180deg, #c2a4ff 0%, #9333ea 100%);
+  box-shadow: 0 0 4px rgba(194, 164, 255, 0.6);
+}
+
+.sound-active .sound-eq-bar.bar-2 {
+  background: linear-gradient(180deg, #e9d5ff 0%, #a855f7 100%);
+  box-shadow: 0 0 4px rgba(194, 164, 255, 0.7);
+}
+
+.sound-active .sound-eq-bar.bar-3 {
+  background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%);
+  box-shadow: 0 0 4px rgba(56, 189, 248, 0.5);
+}
+
+.sound-active .sound-eq-bar.bar-4 {
+  background: linear-gradient(180deg, #f472b6 0%, #db2777 100%);
+  box-shadow: 0 0 4px rgba(244, 114, 182, 0.5);
+}
+
+.sound-muted .sound-eq-bar {
+  background: #6b7280;
+  box-shadow: none;
+}
+
+/* Speaker Icon */
+.sound-speaker-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sound-speaker-icon {
+  color: #c2a4ff;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.sound-animated-toggle-btn:hover .sound-speaker-icon {
+  color: #ffffff;
+}
+
+.sound-speaker-icon.muted {
+  color: #9ca3af;
+}
+
+/* Luminous Halo Ring */
+.sound-active-halo {
+  position: absolute;
+  inset: -3px;
+  border-radius: 9999px;
+  border: 1px solid rgba(194, 164, 255, 0.4);
+  pointer-events: none;
+  transition: transform 0.08s ease-out, opacity 0.08s ease-out;
+}
+
+/* Mobile responsive adjustments */
+@media screen and (max-width: 600px) {
+  .sound-animated-toggle-btn {
+    height: 32px;
+    padding: 0 9px 0 8px;
+    gap: 6px;
+  }
+
+  .sound-eq-bars {
+    height: 13px;
+    width: 13px;
+    gap: 2px;
+  }
+}

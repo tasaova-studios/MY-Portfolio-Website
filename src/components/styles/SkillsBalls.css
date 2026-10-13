@@ -1,0 +1,147 @@
+.skills-balls-wrapper {
+  position: relative;
+  width: 100%;
+  height: 440px;
+  border-radius: 28px;
+  background: radial-gradient(
+    circle at 50% 30%,
+    rgba(194, 164, 255, 0.08) 0%,
+    rgba(18, 12, 28, 0.65) 60%,
+    rgba(8, 5, 12, 0.9) 100%
+  );
+  border: 1px solid rgba(194, 164, 255, 0.22);
+  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.6), 0 15px 45px rgba(0, 0, 0, 0.5), 0 0 25px rgba(194, 164, 255, 0.06);
+  overflow: hidden;
+  margin-bottom: 45px;
+  backdrop-filter: blur(16px);
+  touch-action: none;
+}
+
+.skills-balls-header {
+  position: absolute;
+  top: 18px;
+  left: 24px;
+  z-index: 3;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.skills-balls-title {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-weight: 700;
+  color: var(--accentColor, #c2a4ff);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.skills-balls-title::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accentColor, #c2a4ff);
+  box-shadow: 0 0 10px var(--accentColor, #c2a4ff);
+}
+
+.skills-balls-hint {
+  font-size: 11.5px;
+  color: rgba(234, 229, 236, 0.65);
+  letter-spacing: 1px;
+  font-weight: 400;
+}
+
+.skills-balls-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.skills-balls-canvas:active {
+  cursor: grabbing;
+}
+
+.skills-interactive-callout {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  z-index: 3;
+  pointer-events: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(18, 14, 32, 0.82);
+  border: 1px solid rgba(194, 164, 255, 0.45);
+  border-radius: 9999px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45), 0 0 14px rgba(194, 164, 255, 0.2);
+  backdrop-filter: blur(12px);
+  user-select: none;
+}
+
+.skills-callout-ping {
+  position: relative;
+  display: flex;
+  width: 8px;
+  height: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.skills-callout-ring {
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: #38bdf8;
+  opacity: 0.8;
+  animation: skillsPing 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.skills-callout-core {
+  position: relative;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #a855f7;
+  box-shadow: 0 0 8px #a855f7;
+}
+
+@keyframes skillsPing {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.9;
+  }
+  75%, 100% {
+    transform: scale(2.3);
+    opacity: 0;
+  }
+}
+
+.skills-callout-text {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  color: #ffffff;
+  background: linear-gradient(90deg, #ffffff, #e2d9ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@media screen and (max-width: 768px) {
+  .skills-balls-wrapper {
+    height: 380px;
+    border-radius: 20px;
+  }
+  .skills-balls-header {
+    top: 14px;
+    left: 16px;
+  }
+}

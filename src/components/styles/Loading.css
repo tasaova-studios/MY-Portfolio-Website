@@ -1,0 +1,526 @@
+/* ==========================================================================
+   TASAOVA STUDIOS - ICONIC PRELOADER & WELCOME SYSTEM
+   ========================================================================== */
+
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: var(--vh, 100vh);
+  background-color: #07050e;
+  z-index: 999999999;
+  display: flex;
+  place-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-family: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.7s ease;
+  opacity: 1;
+  visibility: visible;
+}
+
+.loading-screen.fade-out {
+  opacity: 0;
+  transform: scale(1.03);
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   HEADER: BRAND TITLE & BOUNCING BALL MINI GAME
+   ========================================================================== */
+
+.loading-header {
+  width: var(--cWidth, calc(100% - 40px));
+  max-width: var(--cMaxWidth, 1400px);
+  position: fixed;
+  z-index: 9999999999;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 24px 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  color: #ffffff;
+}
+
+.loader-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #f1ecf5;
+  text-decoration: none;
+  user-select: none;
+}
+
+.loader-logo-ring {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  padding: 1.5px;
+  background: linear-gradient(135deg, #c481ff, #38bdf8);
+  box-shadow: 0 0 16px rgba(168, 85, 247, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.loader-logo-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Mini Game in Top Right */
+.loaderGame {
+  display: flex;
+  align-items: center;
+  transition: opacity 0.4s ease;
+}
+
+.loaderGame.loader-out {
+  opacity: 0;
+}
+
+.loaderGame-container {
+  width: 200px;
+  height: 100px;
+  overflow: hidden;
+  position: relative;
+  transform: scale(0.42);
+  transform-origin: top right;
+}
+
+.loaderGame-in {
+  width: 1200px;
+  position: absolute;
+  overflow: hidden;
+  left: 0;
+  animation: loaderGame 7s linear infinite;
+}
+
+@keyframes loaderGame {
+  0% {
+    transform: translateX(0px);
+  }
+  100% {
+    transform: translateX(-300px);
+  }
+}
+
+.loaderGame-line {
+  float: left;
+  margin: 0px 20px;
+  margin-bottom: 40px;
+  position: relative;
+  width: 10px;
+  height: 60px;
+  background: linear-gradient(180deg, #c2a4ff, #7c3aed);
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.4);
+  display: block;
+}
+
+.loaderGame-line:nth-child(2n) {
+  margin-top: 40px;
+  margin-bottom: 0px;
+}
+
+.loaderGame-ball {
+  position: absolute;
+  left: 20%;
+  top: 0%;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #38bdf8;
+  box-shadow: 0 0 16px #38bdf8, 0 0 30px rgba(56, 189, 248, 0.8);
+  animation: ball25 7s infinite;
+  transform: translateY(10px);
+  animation-timing-function: cubic-bezier(0.3, 1.18, 0.63, 1.28);
+}
+
+@keyframes ball25 {
+  0% {
+    transform: translateY(70px);
+  }
+  15% {
+    transform: translateY(10px);
+  }
+  30% {
+    transform: translateY(70px);
+  }
+  45% {
+    transform: translateY(10px);
+  }
+  67% {
+    transform: translateY(70px);
+  }
+  80% {
+    transform: translateY(10px);
+  }
+  90% {
+    transform: translateY(70px);
+  }
+  100% {
+    transform: translateY(70px);
+  }
+}
+
+/* ==========================================================================
+   BACKGROUND RUNNING MARQUEE
+   ========================================================================== */
+
+.loading-marquee {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  transform: translateY(-50%);
+  color: rgba(194, 164, 255, 0.08);
+  font-size: clamp(52px, 8vw, 110px);
+  font-weight: 800;
+  text-transform: uppercase;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: 3px;
+  z-index: 2;
+  overflow: hidden;
+  display: flex;
+}
+
+.loading-marquee-track {
+  display: flex;
+  white-space: nowrap;
+  animation: marqueeContinuous 28s linear infinite;
+  will-change: transform;
+}
+
+@keyframes marqueeContinuous {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.loading-marquee span {
+  padding: 0px 48px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.loading-marquee span::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  background-color: rgba(194, 164, 255, 0.25);
+  position: absolute;
+  top: 50%;
+  border-radius: 50px;
+  left: 0px;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
+}
+
+/* ==========================================================================
+   CENTER PILL LOADING BUTTON (MOUSE FOLLOWER & INTERACTION)
+   ========================================================================== */
+
+.loading-wrap {
+  --Lsize: 155px;
+  padding: 6px;
+  position: relative;
+  min-width: 0px;
+  min-height: 0px;
+  border-radius: 100px;
+  background-color: rgba(15, 12, 24, 0.95);
+  overflow: hidden;
+  transition: 0.8s ease-in-out;
+  transition-delay: 0.1s;
+  box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.7), 0 0 30px rgba(168, 85, 247, 0.25);
+  border: 1px solid rgba(194, 164, 255, 0.35);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  cursor: pointer;
+  user-select: none;
+}
+
+.loading-clicked {
+  transition-delay: 0ms;
+  transition-timing-function: cubic-bezier(0.33, 0.11, 1, 0.72);
+  transform: scale(1);
+  min-width: calc(100vw + 5000px);
+  border-radius: 5000px;
+  min-height: calc(100vh + 500px);
+  box-shadow: none;
+}
+
+.loading-clicked .loading-button {
+  overflow: visible;
+}
+
+.loading-hover {
+  background: radial-gradient(circle, rgba(194, 164, 255, 0.55) 0%, rgba(147, 51, 234, 0) 70%);
+  width: 250px;
+  height: 120px;
+  position: absolute;
+  top: var(--mouse-y, 50%);
+  left: var(--mouse-x, 50%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  filter: blur(28px);
+  opacity: 1;
+  pointer-events: none;
+  transition: opacity 500ms;
+}
+
+.loading-wrap:hover .loading-hover {
+  opacity: 1;
+}
+
+.loading-clicked:hover .loading-hover,
+.loading-clicked .loading-hover {
+  opacity: 0;
+}
+
+.loading-button {
+  padding: 22px 55px;
+  border-radius: 100px;
+  background-color: #0c0814;
+  overflow: hidden;
+  font-size: 18px;
+  font-weight: 600;
+  position: relative;
+  z-index: 9;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-button::before {
+  content: "";
+  background-color: #ffffff;
+  top: var(--mouse-y, 50%);
+  left: var(--mouse-x, 50%);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  z-index: 99;
+  filter: blur(40px);
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.loading-button:hover::before {
+  opacity: 0.8;
+}
+
+.loading-clicked .loading-button::before {
+  opacity: 0;
+}
+
+.loading-container {
+  position: absolute;
+  width: 100%;
+  max-width: var(--Lsize);
+  top: 50%;
+  transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  left: 55px;
+  z-index: 9;
+  transform: translateY(-50%);
+}
+
+.loading-complete .loading-container {
+  max-width: 0px;
+  opacity: 0;
+}
+
+.loading-content {
+  position: relative;
+  background-color: transparent;
+  width: 100%;
+  overflow: hidden;
+  transition: 0.6s;
+  text-transform: uppercase;
+}
+
+.loading-content-in {
+  position: relative;
+  width: var(--Lsize);
+  overflow: hidden;
+  white-space: nowrap;
+  letter-spacing: 1px;
+}
+
+.loading-content span {
+  font-weight: 700;
+  color: #c2a4ff;
+  margin-left: 6px;
+  text-shadow: 0 0 10px rgba(194, 164, 255, 0.6);
+}
+
+.loading-box {
+  position: absolute;
+  right: 0px;
+  top: 50%;
+  transform: translate(100%, -50%);
+  width: 12px;
+  height: 22px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px #ffffff;
+  animation: blink 1s linear infinite;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.loading-complete .loading-box {
+  animation: blinkDone 0.3s forwards;
+  animation-delay: 0.5s;
+}
+
+@keyframes blinkDone {
+  to {
+    opacity: 0;
+  }
+}
+
+.loading-content2 {
+  position: relative;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  width: var(--Lsize);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 10px;
+  text-align: center;
+  transition: 0.8s;
+  max-width: var(--Lsize);
+  font-weight: 700;
+  background: linear-gradient(135deg, #ffffff, #c2a4ff, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.loading-clicked .loading-content2 {
+  opacity: 0;
+  transition: 0.5s;
+}
+
+.loading-clicked .loading-content2 span {
+  transition: 0.8s;
+  transform: translateY(60px);
+  opacity: 0;
+}
+
+/* ==========================================================================
+   STAGE 2: WELCOME MODAL CARD (AFTER LOADING OR ON COMPLETE)
+   ========================================================================== */
+
+.welcome-card-stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  padding: 24px;
+  cursor: pointer;
+  animation: welcomeStageFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes welcomeStageFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+@media only screen and (min-width: 1400px) {
+  .loading-wrap {
+    --Lsize: 190px;
+  }
+  .loading-button {
+    padding: 26px 65px;
+    font-size: 22px;
+  }
+  .loading-container {
+    left: 65px;
+  }
+  .loading-marquee {
+    font-size: 96px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .loading-header {
+    padding: 16px 16px;
+  }
+  .loader-title {
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+  .loader-logo-ring {
+    width: 28px;
+    height: 28px;
+  }
+  .loaderGame-container {
+    transform: scale(0.35);
+  }
+  .loading-button {
+    padding: 18px 42px;
+    font-size: 16px;
+  }
+  .loading-wrap {
+    --Lsize: 135px;
+  }
+  .loading-container {
+    left: 42px;
+  }
+  .loading-marquee {
+    font-size: 42px;
+  }
+}

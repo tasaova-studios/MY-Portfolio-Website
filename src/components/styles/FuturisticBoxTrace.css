@@ -1,0 +1,74 @@
+/* ==========================================================================
+   FUTURISTIC NEON BORDER LOADING TRACE & INTERACTIVE BOX HOVER
+   ========================================================================== */
+
+/* Ensure target cards have relative positioning and smooth futuristic lift */
+.what-content,
+.perk-card,
+.perks-banner,
+.career-info-box,
+.contact-box,
+.skills-balls-wrapper {
+  position: relative !important;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+              border-color 0.35s ease !important;
+}
+
+.what-content:hover,
+.perk-card:hover,
+.career-info-box:hover,
+.contact-box:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5),
+              0 0 25px rgba(194, 164, 255, 0.2) !important;
+}
+
+/* The neon laser trace SVG overlay */
+.neon-trace-svg-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 8;
+  overflow: visible;
+  border-radius: inherit;
+}
+
+.neon-trace-rect {
+  fill: none;
+  stroke: url(#neon-trace-laser-gradient);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  pathLength: 100;
+  stroke-dasharray: 30 100;
+  stroke-dashoffset: 130;
+  filter: drop-shadow(0 0 6px #c084fc)
+         drop-shadow(0 0 16px #38bdf8)
+         drop-shadow(0 0 25px rgba(194, 164, 255, 0.8));
+  opacity: 0;
+  will-change: stroke-dashoffset, opacity;
+}
+
+/* Active perimeter loading sweep */
+.neon-trace-running .neon-trace-rect {
+  opacity: 1;
+  animation: neonBorderTraceSweep 0.95s cubic-bezier(0.25, 0.9, 0.3, 1) forwards;
+}
+
+@keyframes neonBorderTraceSweep {
+  0% {
+    stroke-dashoffset: 130;
+    opacity: 0.95;
+  }
+  85% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: -25;
+    opacity: 0;
+  }
+}

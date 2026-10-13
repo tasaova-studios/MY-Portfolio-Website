@@ -1,0 +1,8 @@
+{
+  "name": "Remix MoncyDev Creative 3D Portfolio",
+  "description": "Award-winning 3D interactive portfolio website featuring real-time WebGL character tracking, interactive tech stack physics, smooth kinetic typography, and creative development showcase.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

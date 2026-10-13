@@ -1,0 +1,380 @@
+.icons-section {
+  position: fixed;
+  max-width: var(--cMaxWidth);
+  width: var(--cWidth);
+  bottom: 0;
+  z-index: 99;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.social-icons {
+  position: absolute;
+  left: -20px;
+  bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 999;
+  padding: 10px;
+  pointer-events: auto;
+}
+
+.gaming-brand-bubble {
+  position: absolute;
+  left: -20px;
+  bottom: 20px;
+  display: flex;
+  pointer-events: auto;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 16px 22px;
+  background: rgba(18, 14, 32, 0.82);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(200, 191, 255, 0.45);
+  border-radius: 28px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(200, 191, 255, 0.15);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.gaming-brand-bubble:hover {
+  border-color: rgba(200, 191, 255, 0.95);
+  box-shadow: 0 0 35px rgba(200, 191, 255, 0.65), inset 0 0 30px rgba(128, 0, 255, 0.45);
+  transform: scale(1.05) translateY(-2px);
+}
+
+.gaming-brand-bubble:active {
+  transform: scale(0.98);
+}
+
+.bubble-glow-bg {
+  position: absolute;
+  inset: -3px;
+  background: linear-gradient(135deg, rgba(200, 191, 255, 0.4), rgba(128, 0, 255, 0.25));
+  border-radius: 30px;
+  z-index: -1;
+  opacity: 0.6;
+  filter: blur(10px);
+  transition: opacity 0.3s;
+}
+
+.gaming-brand-bubble:hover .bubble-glow-bg {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   FLOATING INTERACTIVE CALLOUT BADGE
+   Direct visual cue indicating mouse hover or touch tap is required
+   ========================================================================== */
+
+.brand-floating-callout {
+  position: absolute;
+  top: -38px;
+  left: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 14px;
+  background: linear-gradient(135deg, rgba(32, 20, 56, 0.96), rgba(18, 12, 34, 0.96));
+  border: 1px solid rgba(200, 191, 255, 0.7);
+  border-radius: 9999px;
+  box-shadow: 0 4px 20px rgba(168, 85, 247, 0.5), 0 0 14px rgba(56, 189, 248, 0.35);
+  backdrop-filter: blur(14px);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: calloutFloat 2.4s ease-in-out infinite;
+  z-index: 10;
+  user-select: none;
+}
+
+/* Little downward pointer triangle pointing right at TASAOVA STUDIOS */
+.brand-floating-callout::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 24px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid rgba(200, 191, 255, 0.75);
+}
+
+@keyframes calloutFloat {
+  0%, 100% {
+    transform: translateY(0);
+    box-shadow: 0 4px 18px rgba(168, 85, 247, 0.45), 0 0 10px rgba(56, 189, 248, 0.25);
+  }
+  50% {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 26px rgba(168, 85, 247, 0.7), 0 0 18px rgba(56, 189, 248, 0.5);
+  }
+}
+
+.callout-ping-dot {
+  position: relative;
+  display: flex;
+  width: 8px;
+  height: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.callout-ping-ring {
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: #38bdf8;
+  opacity: 0.8;
+  animation: calloutPingRing 1.6s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.callout-ping-core {
+  position: relative;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #a855f7;
+  box-shadow: 0 0 8px #a855f7;
+}
+
+@keyframes calloutPingRing {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.9;
+  }
+  75%, 100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+.callout-cursor-icon {
+  color: #38bdf8;
+  animation: cursorTapBounce 1.4s ease-in-out infinite;
+}
+
+@keyframes cursorTapBounce {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.22) rotate(-8deg);
+    filter: drop-shadow(0 0 6px #38bdf8);
+  }
+}
+
+.callout-sparkle {
+  color: #fbbf24;
+  animation: pulseSparkle 1.8s infinite alternate ease-in-out;
+}
+
+@keyframes pulseSparkle {
+  0% {
+    transform: rotate(0deg) scale(0.9);
+    filter: drop-shadow(0 0 2px #fbbf24);
+  }
+  100% {
+    transform: rotate(20deg) scale(1.15);
+    filter: drop-shadow(0 0 7px #fbbf24);
+  }
+}
+
+.callout-label {
+  background: linear-gradient(90deg, #ffffff 0%, #e2d9ff 50%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: inherit;
+}
+
+/* ==========================================================================
+   BRAND CAPSULE TEXT & SUB HINT
+   ========================================================================== */
+
+.gaming-brand-link {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-family: inherit;
+  font-weight: 900;
+  font-size: 16px;
+  letter-spacing: 4px;
+  line-height: 1.15;
+  color: #fff;
+  text-transform: uppercase;
+  text-decoration: none;
+  position: relative;
+  z-index: 2;
+}
+
+.brand-word {
+  display: flex;
+}
+
+.brand-letter {
+  display: inline-block;
+  will-change: transform;
+}
+
+.brand-sub-tap-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 4px 10px;
+  background: rgba(194, 164, 255, 0.12);
+  border: 1px dashed rgba(194, 164, 255, 0.4);
+  border-radius: 9999px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #e2d9ff;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+.gaming-brand-bubble:hover .brand-sub-tap-hint {
+  border-color: rgba(56, 189, 248, 0.8);
+  background: rgba(56, 189, 248, 0.22);
+  color: #ffffff;
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.45);
+}
+
+.tap-hint-gem {
+  color: #38bdf8;
+  font-size: 8px;
+  animation: gemSpin 3s linear infinite;
+}
+
+@keyframes gemSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Star dust trailing effect behind moving letters */
+.star-comet-trail {
+  position: relative;
+}
+
+.star-comet-trail::after {
+  content: "✦  ·  ✧  ·  ✦";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #c8bfff;
+  transform: translate(-50%, -50%) rotate(var(--trail-angle, 0deg)) translateX(24px);
+  filter: drop-shadow(0 0 5px #8000ff) drop-shadow(0 0 10px #c8bfff);
+  pointer-events: none;
+  z-index: -1;
+  white-space: nowrap;
+  opacity: 0.8;
+  animation: starTwinkle 0.4s infinite alternate ease-in-out;
+}
+
+@keyframes starTwinkle {
+  0% {
+    opacity: 0.4;
+    transform: translate(-50%, -50%) rotate(var(--trail-angle, 0deg)) translateX(22px) scale(0.9);
+  }
+  100% {
+    opacity: 0.95;
+    transform: translate(-50%, -50%) rotate(var(--trail-angle, 0deg)) translateX(28px) scale(1.15);
+  }
+}
+
+.resume-button {
+  position: absolute;
+  z-index: 9999;
+  display: flex;
+  gap: 6px;
+  bottom: 40px;
+  right: 0;
+  width: auto;
+  text-wrap: nowrap;
+  letter-spacing: 4px;
+  font-size: 15px;
+  line-height: 15px;
+  font-weight: 700;
+  color: #c4b9d0;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: all 0.35s ease;
+  transform-origin: left bottom;
+  transform: translateX(100%) rotateZ(-90deg);
+}
+
+.resume-button:hover {
+  color: #ffffff;
+  text-shadow: 0 0 12px rgba(194, 164, 255, 0.85);
+}
+
+div.resume-button span {
+  color: #c4b9d0;
+  font-size: 17px;
+  margin-top: -1px;
+  display: flex;
+  align-items: center;
+}
+
+@media only screen and (min-width: 900px) {
+  .social-icons {
+    display: flex;
+    gap: 20px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .resume-button {
+    transform: none;
+    font-size: 20px;
+    line-height: 20px;
+  }
+  div.resume-button span {
+    font-size: 23px;
+    margin-top: -1.5px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .gaming-brand-bubble {
+    left: 8px;
+    bottom: 12px;
+    padding: 10px 14px;
+    border-radius: 20px;
+  }
+  .gaming-brand-link {
+    font-size: 13px;
+    letter-spacing: 2.5px;
+  }
+  .brand-floating-callout {
+    top: -34px;
+    left: 0;
+    padding: 4px 10px;
+    font-size: 9.5px;
+  }
+  .brand-sub-tap-hint {
+    margin-top: 5px;
+    padding: 2px 7px;
+    font-size: 8px;
+    letter-spacing: 1px;
+  }
+  .resume-button {
+    bottom: 22px;
+    right: 4px;
+    font-size: 12px;
+    letter-spacing: 2px;
+  }
+}
